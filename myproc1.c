@@ -15,7 +15,7 @@ int main(int argc, char* argv[])
     while ((myfile = readdir(mydir)) != NULL)
     {
         stat(myfile->d_name, &mystat);
-        if ((myfile->d_name[0] >= '0') && (myfile->d_name[0] <= '9'))
+        if ((myfile->d_name[0] >= '0') && (myfile->d_name[0] <= '9') && (mystat.st_mode == 16877))
         {
             printf(" %s\n", myfile->d_name);
             count++;
@@ -24,5 +24,6 @@ int main(int argc, char* argv[])
     printf("%d\n", count);
     closedir(mydir);
 }
+
 
 
