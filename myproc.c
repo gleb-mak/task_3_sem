@@ -10,42 +10,38 @@ int count1;
 int count2;
 int count3;
 
-int dir_count(DIR * cur_dir)
+int dir_count(char* path_name)
 {
+    DIR *cur_dir;
     struct dirent* cur_file;
     struct stat cur_stat;
-    char** subdirs;
-    subdirs = (char**)malloc(10000 * sizeof(char*));
+    if ((cur_dir = opendir(path_name)) == NULL)
+    {
+        return 0;
+    }
     while ((cur_file = readdir(cur_dir)) != NULL)
     {
         count3++;
         int i = 0;
-        char name[100] = { 0 };
-        strcat(name, "/proc/");
+        char* name = (char*)malloc((strlen(path_name) + strlen(cur_file->d_name) + 1) * sizeof(char));
         strcat(name, cur_file->d_name);
         stat(name, &cur_stat);
-        if (S_ISDIR(cur_stat.st_mode))
-        {
-            subdirs[i] = (char*)malloc((strlen(name) + 1) * sizeof(char));
-            strcpy(subdirs[i], name);
-            i++;
-            count1++;
-        }
         if ((cur_file->d_name[0] >= '0') && (cur_file->d_name[0] <= '9'))
         {
             count2++;
         }
+        if (S_ISDIR(cur_stat.st_mode))
+        {
+            if ((strcmp(cur_file->d_name, ".") != 0) && (strcmp(cur_file->d_name, "..")))
+            {
+                count1++;
+                dir_count(path_name);
+            }
+        }
+        free(name);
     }
     closedir(cur_dir);
-    while (*subdirs != NULL)
-    {
-        if ((*subdirs[0] != '.'))
-        {
-            dir_count(opendir(*subdirs));
-        }
-        subdirs++;
-    }
-    free(subdirs);
+    return 0;
 }
 
 int main(int argc, char* argv[])
@@ -54,8 +50,8 @@ int main(int argc, char* argv[])
     struct dirent *myfile;
     struct stat mystat;
     int isdir = 0;
-    mydir = opendir("/proc");
-    dir_count(mydir);
+    dir_count("/proc/");
     printf("isdir: %d\t started with numbrer: %d\t all: %d\n", count1, count2, count3);
-    closedir(mydir);
+    return 0;
 }
+
