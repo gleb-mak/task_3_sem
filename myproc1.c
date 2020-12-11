@@ -10,11 +10,19 @@ int main(int argc, char* argv[])
     DIR *mydir;
     struct dirent *myfile;
     struct stat mystat;
+    int count = 0;
     mydir = opendir("/proc");
-    while((myfile = readdir(mydir)) != NULL)
+    while ((myfile = readdir(mydir)) != NULL)
     {
         stat(myfile->d_name, &mystat);
-        printf(" %s\n", myfile->d_name);
+        if ((myfile->d_name[0] >= '0') && (myfile->d_name[0] <= '9'))
+        {
+            printf(" %s\n", myfile->d_name);
+            count++;
+        }
     }
+    printf("%d\n", count);
     closedir(mydir);
 }
+
+
