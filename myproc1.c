@@ -18,10 +18,7 @@ int main(int argc, char* argv[])
     while ((myfile = readdir(mydir)) != NULL)
     {
         char name[100] = "/proc/";
-        for (int i = 0; i < strlen(myfile->d_name); i++)
-        {
-            name[i + 6] = myfile->d_name[i];
-        }
+        strcat(name, myfile->d_name);
         stat(name, &mystat);
         isdir = S_ISDIR(mystat.st_mode);
         if (isdir)
@@ -39,5 +36,4 @@ int main(int argc, char* argv[])
     printf("isdir: %d\t started with numbrer: %d\t all: %d\n", count1, count2, count3);
     closedir(mydir);
 }
-
 
