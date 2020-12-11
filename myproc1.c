@@ -17,7 +17,8 @@ int main(int argc, char* argv[])
     mydir = opendir("/proc");
     while ((myfile = readdir(mydir)) != NULL)
     {
-        char name[100] = "/proc/";
+        char name[100] = { 0 };
+        strcat(name, "/proc/");
         strcat(name, myfile->d_name);
         stat(name, &mystat);
         isdir = S_ISDIR(mystat.st_mode);
