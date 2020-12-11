@@ -11,11 +11,13 @@ int main(int argc, char* argv[])
     struct dirent *myfile;
     struct stat mystat;
     int count = 0;
+    int isdir = 0;
     mydir = opendir("/proc");
     while ((myfile = readdir(mydir)) != NULL)
     {
         stat(myfile->d_name, &mystat);
-        if ((myfile->d_name[0] >= '0') && (myfile->d_name[0] <= '9') && (mystat.st_mode == 16877))
+        isdir = S_ISDIR(mystat.st_mode);
+        if ((myfile->d_name[0] >= '0') && (myfile->d_name[0] <= '9') && isdir)
         {
             printf(" %s\n", myfile->d_name);
             count++;
@@ -24,6 +26,3 @@ int main(int argc, char* argv[])
     printf("%d\n", count);
     closedir(mydir);
 }
-
-
-
