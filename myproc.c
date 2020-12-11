@@ -28,7 +28,7 @@ int dir_count(char* path_name)
         strcat(name, path_name);
         strcat(name, "/");
         strcat(name, cur_file->d_name);
-        stat(name, &cur_stat);
+        lstat(name, &cur_stat);
         if ((cur_file->d_name[0] >= '0') && (cur_file->d_name[0] <= '9') && (strcmp(path_name, "/proc") == 0))
         {
             count2++;
