@@ -23,11 +23,8 @@ int dir_count(char* path_name)
     {
         count3++;
         int i = 0;
-        char* name = (char*)malloc(strlen(path_name) + strlen(cur_file->d_name) + 1);
-        for (int j = 0; j < strlen(name); j++)
-        {
-            name[j] = 0;
-        }
+        char* name = (char*)malloc(strlen(path_name) + strlen(cur_file->d_name) + 2);
+        *name = 0;
         strcat(name, path_name);
         strcat(name, "/");
         strcat(name, cur_file->d_name);
