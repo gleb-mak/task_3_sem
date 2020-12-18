@@ -95,7 +95,7 @@ void south_car(int idmsg)
 	printf("car %d: going out to north.\n", getpid());
 	sync();
 	msgsnd(idmsg, &msg[2], 1, 0);
-	north_car(idmsg);
+	//north_car(idmsg);
 }
 
 void north_car(int idmsg)
@@ -113,7 +113,7 @@ void north_car(int idmsg)
     printf("car %d: going out to north.\n", getpid());
     sync();
 	msgsnd(idmsg, &msg[2], 1, 0);
-    south_car(idmsg);
+    //south_car(idmsg);
 }
 
 int main(int argc, char *argv[])
